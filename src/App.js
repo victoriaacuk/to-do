@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import video from "./activity.mp4";
+import React, { useState, useEffect } from "react";
+
+
 
 function App() {
+
+  const [tips, setTips] = useState("");
+
+  const fetchTips = async () => {
+  const response = await fetch("http://www.boredapi.com/api/activity/");
+  const data = await response.json();
+  setTips(data.activity);
+  };
+
+  useEffect(() => {
+    fetchTips();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="container">
+          <video autoPlay muted loop>
+          <source src={video} type="video/mp4" />
+          </video>
+      </div>
+      <div>
+        <div className="list">
+      <p> {tips} </p>
+      </div>
+      </div>
+      <div className="btn ">
+      <button onClick={fetchTips}>New Tip</button>
+      </div>
     </div>
+    
   );
 }
 
